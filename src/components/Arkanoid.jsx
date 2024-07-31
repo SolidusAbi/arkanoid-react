@@ -4,6 +4,7 @@ import Ball from "./Ball"
 import KeyboardController from "./KeyboardController";
 
 import useMovable from "../hooks/useMovable";
+import useAnimation from "../hooks/useAnimation";
 
 export default function Arkanoid({width, height}) {
     const ballRadius = 20;
@@ -16,6 +17,8 @@ export default function Arkanoid({width, height}) {
     const { position: pPosition, moveLeft: pMoveLeft, moveRight: pMoveRight } = useMovable(initialPaddlePosition);
     const { position: bPosition,  moveLeft: bMoveLeft, moveRight: bMoveRight} = useMovable(initialBallPosition)
 
+    useAnimation(() => bMoveLeft(delta), 300)
+
     const handlePaddleMoveLeft = () => {
       if (pPosition[0] - delta >= 0)
         pMoveLeft(delta)
@@ -25,6 +28,7 @@ export default function Arkanoid({width, height}) {
       if (pPosition[0] + delta <= width - paddleLength)
         pMoveRight(delta)
     }
+
     return (
         <div className="game-container">
           <Paddle width={width} position={pPosition}></Paddle>

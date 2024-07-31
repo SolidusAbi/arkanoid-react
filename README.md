@@ -1,4 +1,4 @@
-# Arkanoid in React
+# Arkanoid in React (Work In Progress)
 
 The objective of this project is to investigate the utilization of React in the creation of user interfaces.
 

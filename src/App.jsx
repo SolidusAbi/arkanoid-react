@@ -6,12 +6,6 @@ import Arkanoid from './components/Arkanoid'
 
 function App() {
   return <Arkanoid width='600' height='800' />
-  // return (
-  //   <div className="game-container">
-  //     <Paddle width="600"></Paddle>
-  //     <div className="ball"></div>
-  //   </div>
-  // );
 }
 
 export default App
