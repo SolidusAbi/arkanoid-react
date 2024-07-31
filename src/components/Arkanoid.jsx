@@ -16,13 +16,22 @@ export default function Arkanoid({width, height}) {
     const { position: pPosition, moveLeft: pMoveLeft, moveRight: pMoveRight } = useMovable(initialPaddlePosition);
     const { position: bPosition,  moveLeft: bMoveLeft, moveRight: bMoveRight} = useMovable(initialBallPosition)
 
+    const handlePaddleMoveLeft = () => {
+      if (pPosition[0] - delta >= 0)
+        pMoveLeft(delta)
+    }
+
+    const handlePaddleMoveRight = () => {
+      if (pPosition[0] + delta <= width - paddleLength)
+        pMoveRight(delta)
+    }
     return (
         <div className="game-container">
           <Paddle width={width} position={pPosition}></Paddle>
           <Ball position={bPosition}></Ball>
           <KeyboardController 
-            onMoveLeft={()=>pMoveLeft(delta)}
-            onMoveRight={()=>pMoveRight(delta)}
+            onMoveLeft={handlePaddleMoveLeft}
+            onMoveRight={handlePaddleMoveRight}
           />
         </div>
       );
