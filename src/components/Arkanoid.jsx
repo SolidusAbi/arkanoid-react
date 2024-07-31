@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Paddle from "./Paddle";
 import Ball from "./Ball"
 import KeyboardController from "./KeyboardController";
 
-import useMovable from "../hooks/useMovable";
+import useMovable, { Direction } from "../hooks/useMovable";
 import useAnimation from "../hooks/useAnimation";
 
 export default function Arkanoid({width, height}) {
@@ -14,19 +14,33 @@ export default function Arkanoid({width, height}) {
     const delta = 10 // 'Speed'
 
     // Custom Hooks
-    const { position: pPosition, moveLeft: pMoveLeft, moveRight: pMoveRight } = useMovable(initialPaddlePosition);
-    const { position: bPosition,  moveLeft: bMoveLeft, moveRight: bMoveRight} = useMovable(initialBallPosition)
+    const { position: pPosition, moveLeft: pMoveLeft, moveRight: pMoveRight, move:pMove } = useMovable(initialPaddlePosition);
+    const { position: bPosition,  moveLeft: bMoveLeft, moveRight: bMoveRight, move:bMove} = useMovable(initialBallPosition)
 
-    useAnimation(() => bMoveLeft(delta), 300)
+    const directionBall = useRef(Direction.Left)
+    const handleBallAnimation = () => {
+      const [dx, dy] = directionBall.current
+      console.log(bPosition[0])
+      if (bPosition[0] <= 0 + ballRadius)
+        directionBall.current = Direction.Right;
+      
+      if (bPosition[0] >= width - ballRadius)
+        directionBall.current = Direction.Left;
+    }
+
+    useAnimation(() => { 
+      bMove(delta, ...directionBall.current);
+      handleBallAnimation();
+    }, 50)
 
     const handlePaddleMoveLeft = () => {
       if (pPosition[0] - delta >= 0)
-        pMoveLeft(delta)
+        pMove(delta, ...Direction.Left)
     }
 
     const handlePaddleMoveRight = () => {
       if (pPosition[0] + delta <= width - paddleLength)
-        pMoveRight(delta)
+        pMove(delta, ...Direction.Right)
     }
 
     return (
