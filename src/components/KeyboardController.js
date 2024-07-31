@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-export default function KeyboardController({ onMove }) {
+const KeyboardController = ({ onMoveLeft, onMoveRight }) => {
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowLeft') {
-      onMove(-10);
+      onMoveLeft();
     } else if (event.key === 'ArrowRight') {
-      onMove(10);
+      onMoveRight();
     }
   };
 
@@ -14,7 +14,9 @@ export default function KeyboardController({ onMove }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onMoveLeft, onMoveRight]);
 
   return null;
-}
+};
+
+export default KeyboardController;
